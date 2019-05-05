@@ -5,6 +5,8 @@ import axios from 'axios'
 import Index from '@/components/Index'
 import Login from '@/components/Login'
 
+import LoginUser from '@/views/login_user'
+
 
 Vue.use(Router)
 
@@ -15,7 +17,7 @@ var router = new Router({
 	routes: [{
 			path: '/',
 			name: '首页',
-			component: Index,
+			component: LoginUser,
 			// meta: {
 			// 	requireAuth: true
 			// }

@@ -1,5 +1,5 @@
 <template>
-	<div id="index" class="main_body">
+	<div id="index">
 		asdasdasd
 	</div>
 </template>
@@ -12,11 +12,7 @@ export default {
 	    }
 	  },
 	  mounted:function(){
-			this.postHttp("getLoginUesr",{},res=>{
-				if(res.code == "60000" || res.code == "50000" || res.code == "30000"){
-					this.$router.push('login');
-				}
-			});
+
 	  },
 	  methods:{
 	  }
