@@ -24,9 +24,9 @@ axios.defaults.withCredentials = true
 Vue.prototype.$axios = axios
 
 /* 时间转化 */
-Vue.prototype.timeF = require('moment');
+Vue.prototype.$timeF = require('moment');
 
-var baseUrl = "http://localhost/"
+var baseUrl = "http://localhost:8080/"
 /*
  * 封装ajax
  * data : ajax传入后台data数据
@@ -45,6 +45,14 @@ Vue.prototype.$postHttp =  function(address,data,fn){
 		      duration:1500,
 		      type:'error'
 	    });
+	})
+}
+
+Vue.prototype.$postHttpForMb =  function(address,data,fn){
+	this.$axios.post(baseUrl+address,data).then(response => {
+  			fn(response.data);
+    },response => {
+    	this.$message({message: '网络错误',type: 'error',center: true});
 	})
 }
 

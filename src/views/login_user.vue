@@ -5,13 +5,13 @@
     </div>
     <div class="main">
       <div class="main_items">
-          <el-input v-model="form.name" placeholder="请输入姓名"></el-input>
+          <el-input v-model="userName" placeholder="请输入姓名"></el-input>
       </div>
       <div class="main_items">
-          <el-input v-model="form.name" placeholder="请输入手机号"></el-input>
+          <el-input v-model="userPhone" placeholder="请输入手机号"></el-input>
       </div>
       <div class="main_items">
-        <el-button type="primary">登陆</el-button>
+        <el-button type="primary" @click="userLogin">登陆</el-button>
       </div>
     </div>
 	</div>
@@ -22,13 +22,27 @@ export default {
 	  data () {
 	    return {
 	      msg: 'index',
-        form:{}
+        userName:"",
+				userPhone:""
 	    }
 	  },
 	  mounted:function(){
 
 	  },
 	  methods:{
+			userLogin(){
+				if(this.userName == ''){
+					this.$message({message: '请填写用户名',type: 'error',center: true});
+					return;
+				}
+				if(this.userPhone == ''){
+					this.$message({message: '请填写手机号',type: 'error',center: true});
+					return;
+				}
+				this.$postHttpForMb("userscore/getUserScoreByUserPhone",{userName:this.userName,userPhone:this.userPhone},res=>{
+					console.log(res);
+				})
+			}
 	  }
 }
 </script>
@@ -38,6 +52,7 @@ export default {
   max-width:1000px;
   height:100%;
   font-size:20px;
+	position:relative;
 }
 #login_user .background{
   max-width:1000px;
@@ -75,4 +90,5 @@ export default {
   line-height: 3em;
   font-size: 2em;
 }
+
 </style>
