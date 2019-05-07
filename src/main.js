@@ -21,6 +21,7 @@ Vue.use(ElementUI)
 
 /* axios配置 */
 axios.defaults.withCredentials = true
+axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
 Vue.prototype.$axios = axios
 
 /* 时间转化 */
@@ -136,6 +137,18 @@ Vue.prototype.$getBaseUrl = function(){
 	return baseUrl;
 }
 
+
+/*
+ * 封装sessionStorage
+ * key : 键 string
+ * value : 值 object
+ * */
+Vue.prototype.$setData = function(key,value){
+	window.sessionStorage.setItem(key,value);
+}
+Vue.prototype.$getData = function(key){
+	return window.sessionStorage.getItem(key);
+}
 
 /* eslint-disable no-new */
 new Vue({

@@ -3,14 +3,16 @@ import Router from 'vue-router'
 import axios from 'axios'
 // 组件
 import Index from '@/components/Index'
-import Login from '@/components/Login'
 
-import LoginUser from '@/views/login_user'
+// mobile
+import LoginUser from '@/views/mobile/login_user'
+
+// pc
+import Login from '@/views/pc/login'
+import ScroeList from '@/views/pc/scroeList'
 
 
 Vue.use(Router)
-
-var querystring = require('querystring');
 
 var router = new Router({
 	mode: 'history',
@@ -26,6 +28,11 @@ var router = new Router({
 			path: '/login',
 			name: '登录',
 			component: Login
+		},
+		{
+			path: '/scroeList',
+			name: '成绩列表',
+			component: ScroeList
 		},
 
 	]
