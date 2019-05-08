@@ -27,7 +27,7 @@ Vue.prototype.$axios = axios
 /* 时间转化 */
 Vue.prototype.$timeF = require('moment');
 
-var baseUrl = "http://localhost:8080/"
+var baseUrl = "http://localhost:8088/"
 /*
  * 封装ajax
  * data : ajax传入后台data数据

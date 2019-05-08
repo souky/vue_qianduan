@@ -89,7 +89,7 @@ body{
 	left:0px;
 	top:-32px;
 }
-.el-button{
+.formData .el-button{
 	width: 100%;
 }
 
@@ -99,6 +99,18 @@ body{
 ::-webkit-scrollbar-track{background-color:#E0E0E0;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius:5px;}
 ::-webkit-scrollbar-thumb{background-color:#868686;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius:5px;}
 
+.pages_so{
+	display: flex;
+	display: -webkit-flex;
+	justify-content: center;
+}
+.el-pagination{
+	display: inline-block;
+	margin-top:10px;
+}
+.el-select{
+	width:100%;
+}
 /*element 元素修改*/
 /* .el-menu-item.is-active{
 	color:#fff!important;

@@ -1,8 +1,6 @@
 <template>
   <div id="app">
-  	<transition name="slide-fade">
-    		<router-view></router-view>
-    </transition>
+  		<router-view></router-view>
   </div>
 </template>
 
@@ -22,15 +20,5 @@
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
   height:100%;
-}
-.slide-fade-enter-active {
-  transition: all .3s ease;
-}
-.slide-fade-leave-active {
-  transition: all .1s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-}
-.slide-fade-enter, .slide-fade-leave-to{
-  transform: translateX(0px);
-  opacity: 0;
 }
 </style>

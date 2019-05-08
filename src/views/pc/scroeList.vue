@@ -1,39 +1,34 @@
 <template>
   <div id="scroeList">
-    <div class="title_fixed ac">POWER BY SOUKY</div>
+    <div class="title_fixed ac">查 看 成 绩</div>
   	<div id="tables">
   		<div id="autoCode">
 
   			<div class="main">
-  	            <div class="titleMain ac">
-  	                	查看奏折
-  	            </div>
 
   	            <div class="formData clearfix">
-  	                <div class="items fl">
-  	                    <el-input v-model="query.realName" class="fomatInput" type="text" placeholder="姓名" />
+  	                <div class="items ">
+  	                    <el-input v-model="query.userName" class="fomatInput" type="text" placeholder="姓名" />
   	                </div>
 
-  	                <div class="items fl">
-  	                    <el-input v-model="query.phone" class="fomatInput" type="text" placeholder="手机号" />
+  	                <div class="items ">
+  	                    <el-input v-model="query.userPhone" class="fomatInput" type="text" placeholder="手机号" />
   	                </div>
 
-  	                <div class="items fl">
+                    <div class="items ">
+                    	<el-button type="primary" @click="loadData">查询</el-button>
   	                </div>
 
-  	                <div class="items fl clearfix">
-  	                	<el-button>查询</el-button>
+  	                <div class="items">
+  	                	<el-button type="primary" @click="setQuestion">题目设置</el-button>
   	                </div>
-  	            </div>
-
-  	            <div class="titleMain ac">
-  	                	奏折列表
   	            </div>
   	            <div class="tables">
               		<el-table   :data="tableData"  style="width: 100%" >
-  			            <el-table-column align="center" prop="reallyName" label="姓名" ></el-table-column>
-  			            <el-table-column align="center" prop="phone" label="手机号" ></el-table-column>
-  			            <el-table-column align="center" prop="createDate" label="答题时间" ></el-table-column>
+  			            <el-table-column align="center" prop="userName" label="姓名" ></el-table-column>
+  			            <el-table-column align="center" prop="userPhone" label="手机号" ></el-table-column>
+                    <el-table-column align="center" prop="userScore" label="分数" ></el-table-column>
+  			            <el-table-column align="center" prop="userTime" label="答题时间(s)" ></el-table-column>
   			            <el-table-column align="center" class-name="operations" label="操作" width="90">
   				            <template slot-scope="scope">
   				             	<div class="op_items">
@@ -45,10 +40,10 @@
   	            </div>
   	            <div class="pages_so">
   	            	<el-pagination @size-change="pageSizeChange" @current-change="pageChange" :current-page.sync="page.pageNum"
-  				      :page-sizes="[10, 20, 30, 40]"
-  				      :page-size="page.pageSize"
-  				      layout="sizes,prev, pager, next,jumper" :total="page.total">
-  				    </el-pagination>
+      				      :page-sizes="[10, 20, 30, 40]"
+      				      :page-size="page.pageSize"
+      				      layout="sizes,prev, pager, next,jumper" :total="page.total">
+      				    </el-pagination>
   	            </div>
 
           	</div>
@@ -78,12 +73,13 @@
 </template>
 
 <script>
+var echarts = require('echarts');
 export default {
   data(){
     return{
       query:{
-  		  reallyName:'',
-  		  phone:'',
+  		  userName:'',
+  		  userPhone:'',
   	  },
   	  tableData:[],
   	  page:{
@@ -103,7 +99,7 @@ export default {
 		  var data = this.query;
 	      data['pageNum'] = this.page.pageNum;
   		  data['pageSize'] = this.page.pageSize;
-  		  this.$postHttp("auditionform/queryAuditionForms",data,res=>{
+  		  this.$postHttp("userscore/queryUserScores",data,res=>{
   			  this.tableData = res.result.list;
   			  this.page.pageNum = res.result.pageNum;
   			  this.page.total = res.result.total;
@@ -115,51 +111,48 @@ export default {
 	  show(id){
 		  this.loading = true;
 		  this.dialogVisible = true;
-		  this.$postHttp("useranswer/getUserAnswerByUserId",id,res=>{
+		  this.$postHttp("useranswer/getUserAnswerByUserIdWithData",{userId:id},res=>{
 				console.log(res);
-				//this.randars(res);
-
+        setTimeout(data=>{
+          this.randars(res);
+        },100);
 		  })
 	  },
 	  randars(res){
 		  var docs = document.getElementById('randar');
 		  var myChart = echarts.init(docs);
-		  option = {
-			title: {
-			     x: 'center',
-			    text: '能力值'
-			},
-			tooltip: {
-			    trigger: 'axis'
-			},
-			radar: [
-			    {
-			        indicator: [
-			            {text: '能力值1', max: 100},
-			            {text: '能力值2', max: 100},
-			            {text: '能力值3', max: 100},
-			            {text: '能力值4', max: 100},
-			            {text: '能力值5', max: 100}
-			        ],
-			        center: ['50%','40%'],
-			        radius: 50
-			    }
-			],
-			series: [
-			    {
-			        type: 'radar',
-			         tooltip: {
-			            trigger: 'item'
-			        },
-			        itemStyle: {normal: {areaStyle: {type: 'default'}}},
-			        data: [
-			            {
-			                value: [60,73,85,40,99],
-			                name: '某软件'
-			                }
-			            ]
-			        }
-			    ]
+      var listAblity = res.result.listAblity;
+      var ablityValue = res.result.ablityValue;
+		  var option = {
+  			title: {
+  			     x: 'center',
+  			    text: '能力值'
+  			},
+  			tooltip: {
+  			    trigger: 'axis'
+  			},
+  			radar: [
+  			    {
+  			        indicator: listAblity,
+  			        center: ['50%','40%'],
+  			        radius: 50
+  			    }
+  			],
+  			series: [
+  			    {
+  			        type: 'radar',
+  			         tooltip: {
+  			            trigger: 'item'
+  			        },
+  			        itemStyle: {normal: {areaStyle: {type: 'default'}}},
+  			        data: [
+  			            {
+  			                value: ablityValue,
+  			                name: '能力表'
+  			                }
+  			            ]
+  			        }
+  			    ]
 		  };
 		  myChart.setOption(option);
 		  this.loading = false;
@@ -172,6 +165,9 @@ export default {
 		  this.page.pageNum = val;
 		  this.loadData();
 	  },
+    setQuestion(){
+      this.$router.push("questionList")
+    }
   }
 }
 </script>
@@ -197,23 +193,11 @@ body{
     margin: 80px auto;
     border-radius: 5px;
 }
-#autoCode .main .titleMain{
-	width: 90%;
-	height: 40px;
-	line-height: 40px;
-	font-size: 20px;
-	border-bottom: 1px #c7c7c7 solid;
-	margin: auto;
-	position: relative;
-
-}
 
 #autoCode .formData{
 	width: 90%;
 	margin:30px auto;
   display: flex;
-	/*padding-bottom: 50px;
-	border-bottom: 1px #c7c7c7 solid;*/
 }
 
 #autoCode .formData .items{
@@ -235,11 +219,4 @@ body{
 	margin-left:20px;
 }
 
-#autoCode .formData .fomatInput:focus, textarea:focus, keygen:focus, select:focus {
-    outline-offset: 0px;
-    border-bottom-color:#ca2450
-}
-:focus {
-    outline: -webkit-focus-ring-color none 0px;
-}
 </style>

@@ -10,6 +10,7 @@ import LoginUser from '@/views/mobile/login_user'
 // pc
 import Login from '@/views/pc/login'
 import ScroeList from '@/views/pc/scroeList'
+import QuestionList from '@/views/pc/questionList'
 
 
 Vue.use(Router)
@@ -33,6 +34,11 @@ var router = new Router({
 			path: '/scroeList',
 			name: '成绩列表',
 			component: ScroeList
+		},
+		{
+			path: '/questionList',
+			name: '题目设置',
+			component: QuestionList
 		},
 
 	]
