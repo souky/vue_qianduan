@@ -37,36 +37,6 @@ body{
 	left:0;top:0;
 }
 
-/* query */
-.query{
-	width:97%;
-	margin:auto;
-	display: flex;
-	display: -webkit-flex;
-	flex-wrap:wrap;
-	padding:20px 0px 35px 0px;
-}
-.query .query_items{
-	width:24%;
-	height:40px;
-	line-height: 40px;
-	padding:10px 0.5%;
-	display: -webkit-flex;
-	flex-wrap:wrap;
-}
-.query .query_items .text{
-	width:30%;
-	font-size:14px;
-	text-align: center;
-	color: #444;
-}
-.query .query_items .inputs{
-	width:70%;
-}
-.query .query_button{
-	width: 70%;
-	margin-left:30%;
-}
 
 /* tables*/
 .tables{
@@ -93,6 +63,48 @@ body{
 	width: 100%;
 }
 
+.moblie-body{
+  max-width:1000px;
+  height:100%;
+  font-size:20px;
+	position:relative;
+}
+.moblie-body .background{
+  max-width:1000px;
+  height:100%;
+  position:absolute;
+  left:0px;
+  top:0px;
+  z-index:-1;
+}
+.moblie-body .main{
+  width:90%;
+  height:90%;
+  background:#fff;
+  position:absolute;
+  left:5%;
+  top:5%;
+  box-sizing: border-box;
+  margin: auto;
+  padding: 10em 0 13em 0;
+  border-radius:0.5em;
+}
+.moblie-body .top{
+	width: 90%;
+	height: 10em;
+	position: absolute;
+	top: 5%;
+	left: 5%;
+	z-index: 99;
+}
+.moblie-body .bottom{
+	width: 90%;
+	height: 13em;
+	position: absolute;
+	bottom: 5%;
+	left: 5%;
+	z-index: 99;
+}
 
 /*滚动条*/
 ::-webkit-scrollbar{width: 10px;position: absolute;right: 0px;top: 0px;z-index: 9999;}

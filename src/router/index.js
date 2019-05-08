@@ -6,6 +6,7 @@ import Index from '@/components/Index'
 
 // mobile
 import LoginUser from '@/views/mobile/login_user'
+import Answer from '@/views/mobile/answer'
 
 // pc
 import Login from '@/views/pc/login'
@@ -17,7 +18,8 @@ Vue.use(Router)
 
 var router = new Router({
 	mode: 'history',
-	routes: [{
+	routes: [
+		{
 			path: '/',
 			name: '首页',
 			component: LoginUser,
@@ -25,6 +27,15 @@ var router = new Router({
 			// 	requireAuth: true
 			// }
 		},
+		{
+			path: '/answer',
+			name: '答题页面',
+			component: Answer,
+			// meta: {
+			// 	requireAuth: true
+			// }
+		},
+
 		{
 			path: '/login',
 			name: '登录',

@@ -52,7 +52,7 @@
     				<div class="answer-body" v-loading="loading">
     					<div id="randar"></div>
     					<div class="table_right">
-    						<el-table   :data="tableData"  style="width: 100%" >
+    						<el-table   :data="tableData_info"  style="width: 100%" >
   			            <el-table-column align="center" prop="sort" label="题号" ></el-table-column>
   			            <el-table-column align="center" prop="answer" label="标准答案" ></el-table-column>
   			            <el-table-column align="center" prop="userAnswer" label="这货的答案" ></el-table-column>
@@ -89,6 +89,7 @@ export default {
       },
       dialogVisible:false,
       loading:true,
+      tableData_info:[]
     }
   },
   mounted:function(){
@@ -112,10 +113,14 @@ export default {
 		  this.loading = true;
 		  this.dialogVisible = true;
 		  this.$postHttp("useranswer/getUserAnswerByUserIdWithData",{userId:id},res=>{
-				console.log(res);
-        setTimeout(data=>{
-          this.randars(res);
-        },100);
+        this.tableData_info = res.result.list;
+        if(res.result.listAblity.length != 0){
+          setTimeout(data=>{
+            this.randars(res);
+          },100);
+        }else{
+          this.loading = false;
+        }
 		  })
 	  },
 	  randars(res){

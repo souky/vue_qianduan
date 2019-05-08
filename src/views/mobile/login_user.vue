@@ -1,10 +1,16 @@
 <template>
-	<div id="login_user">
+	<div id="login_user" class="moblie-body">
+		<div class="top">
+      <img src="static/img/moblie/top.png" style="width:100%;height:100%">
+    </div>
+    <div class="bottom">
+      <img src="static/img/moblie/bottom.png" style="width:100%;height:100%">
+    </div>
 		<div class="background">
       <img src="static/img/moblie/background.jpg" style="width:100%;height:100%">
     </div>
     <div class="main">
-      <div class="main_items">
+      <div class="main_items" style="margin-top:14em;">
           <el-input v-model="userName" placeholder="请输入姓名"></el-input>
       </div>
       <div class="main_items">
@@ -40,7 +46,13 @@ export default {
 					return;
 				}
 				this.$postHttpForMb("userscore/getUserScoreByUserPhone",{userName:this.userName,userPhone:this.userPhone},res=>{
-					console.log(res);
+					var flag = res.result.userFlag;
+					if(flag == '0'){
+						this.$router.push("answer");
+						this.$setData("user",res.result);
+					}else{
+							this.$message({message: '您已作答完毕',type: 'success',center: true});
+					}
 				})
 			}
 	  }
@@ -48,32 +60,6 @@ export default {
 </script>
 
 <style>
-#login_user{
-  max-width:1000px;
-  height:100%;
-  font-size:20px;
-	position:relative;
-}
-#login_user .background{
-  max-width:1000px;
-  height:100%;
-  position:absolute;
-  left:0px;
-  top:0px;
-  z-index:-1;
-}
-#login_user .main{
-  width:90%;
-  height:90%;
-  background:#fff;
-  position:absolute;
-  left:5%;
-  top:5%;
-  box-sizing: border-box;
-  margin: auto;
-  padding: 23em 0;
-  border-radius:0.5em;
-}
 #login_user .main_items{
   width:90%;
   margin:2em auto;
