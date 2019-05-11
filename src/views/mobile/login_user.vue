@@ -49,7 +49,7 @@ export default {
 					var flag = res.result.userFlag;
 					if(flag == '0'){
 						this.$router.push("answer");
-						this.$setData("user",res.result);
+						this.$setData("userId",res.result.id);
 					}else{
 							this.$message({message: '您已作答完毕',type: 'success',center: true});
 					}
@@ -76,5 +76,20 @@ export default {
   line-height: 3em;
   font-size: 2em;
 }
-
+#login_user.moblie-body .top{
+	width: 90%;
+	height: 10em;
+	position: absolute;
+	top: 5%;
+	left: 5%;
+	z-index: 99;
+}
+#login_user.moblie-body .bottom{
+	width: 90%;
+	height: 13em;
+	position: absolute;
+	bottom: 5%;
+	left: 5%;
+	z-index: 99;
+}
 </style>

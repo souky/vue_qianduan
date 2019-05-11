@@ -27,7 +27,7 @@ Vue.prototype.$axios = axios
 /* 时间转化 */
 Vue.prototype.$timeF = require('moment');
 
-var baseUrl = "http://192.168.1.103:8088/"
+var baseUrl = "http://192.168.35.116:8088/"
 /*
  * 封装ajax
  * data : ajax传入后台data数据
@@ -148,6 +148,10 @@ Vue.prototype.$setData = function(key,value){
 }
 Vue.prototype.$getData = function(key){
 	return window.sessionStorage.getItem(key);
+}
+
+Vue.prototype.$unbind = function(data){
+	return JSON.parse(JSON.stringify(data));
 }
 
 /* eslint-disable no-new */

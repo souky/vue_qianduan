@@ -89,22 +89,7 @@ body{
   padding: 10em 0 13em 0;
   border-radius:0.5em;
 }
-.moblie-body .top{
-	width: 90%;
-	height: 10em;
-	position: absolute;
-	top: 5%;
-	left: 5%;
-	z-index: 99;
-}
-.moblie-body .bottom{
-	width: 90%;
-	height: 13em;
-	position: absolute;
-	bottom: 5%;
-	left: 5%;
-	z-index: 99;
-}
+
 
 /*滚动条*/
 ::-webkit-scrollbar{width: 10px;position: absolute;right: 0px;top: 0px;z-index: 9999;}
