@@ -26,8 +26,10 @@ Vue.prototype.$axios = axios
 
 /* 时间转化 */
 Vue.prototype.$timeF = require('moment');
+Vue.prototype.$timeF.locale('zh-cn');
 
-var baseUrl = "http://192.168.35.116:8088/"
+//var baseUrl = "http://localhost:8088/"
+var baseUrl = "http://audition.soukys.com/"
 /*
  * 封装ajax
  * data : ajax传入后台data数据
@@ -125,7 +127,6 @@ Vue.prototype.$confim_jy = function(message,title,confimEvent){
 	this.$confirm(message, title, {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
-          type: 'warning'
         }).then(() => {
           	confimEvent();
         }).catch(() => {

@@ -7,6 +7,7 @@ import Index from '@/components/Index'
 // mobile
 import LoginUser from '@/views/mobile/login_user'
 import Answer from '@/views/mobile/answer'
+import Finish from '@/views/mobile/finish'
 
 // pc
 import Login from '@/views/pc/login'
@@ -26,6 +27,11 @@ var router = new Router({
 			// meta: {
 			// 	requireAuth: true
 			// }
+		},
+		{
+			path: '/finish',
+			name: '完成页面',
+			component: Finish,
 		},
 		{
 			path: '/answer',

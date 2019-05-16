@@ -4,7 +4,7 @@
   	<div id="tables">
   		<div id="autoCode">
 
-  			<div class="main">
+  			<div class="main" v-show="!dialogVisible">
 
   	            <div class="formData clearfix">
   	                <div class="items ">
@@ -16,20 +16,24 @@
   	                </div>
 
                     <div class="items ">
+  	                </div>
+                    <div class="items ">
                     	<el-button type="primary" @click="loadData">查询</el-button>
   	                </div>
 
-  	                <div class="items">
+  	                <!-- <div class="items">
   	                	<el-button type="primary" @click="setQuestion">题目设置</el-button>
-  	                </div>
+  	                </div> -->
   	            </div>
   	            <div class="tables">
               		<el-table   :data="tableData"  style="width: 100%" >
-  			            <el-table-column align="center" prop="userName" label="姓名" ></el-table-column>
-  			            <el-table-column align="center" prop="userPhone" label="手机号" ></el-table-column>
-                    <el-table-column align="center" prop="userScore" label="分数" ></el-table-column>
-  			            <el-table-column align="center" prop="userTime" label="答题时间(s)" ></el-table-column>
-  			            <el-table-column align="center" class-name="operations" label="操作" width="90">
+  			            <el-table-column align="center" prop="userName" width='200' label="姓名" ></el-table-column>
+                    <el-table-column align="center" prop="userAge" width='70' label="年龄" ></el-table-column>
+  			            <el-table-column align="center" prop="userPhone" width='200' label="手机号" ></el-table-column>
+                    <el-table-column align="center" prop="userFlag" width='90' :formatter="flagFormat" label="是否答题" ></el-table-column>
+  			            <el-table-column align="center" prop="userTime" width='100' label="答题时间(s)" ></el-table-column>
+                    <el-table-column align="center" prop="userDate" :formatter="formatDate" label="答题日期" ></el-table-column>
+  			            <el-table-column align="center" class-name="operations" label="操作" width="80">
   				            <template slot-scope="scope">
   				             	<div class="op_items">
   			    					<el-button size="mini" @click="show(scope.row.id)">查看</el-button>
@@ -48,11 +52,10 @@
 
           	</div>
 
-          	<el-dialog title="查看成绩" :visible.sync="dialogVisible" width="80%" >
-    				<div class="answer-body" v-loading="loading">
-    					<div id="randar"></div>
+            <div class="main" v-show="dialogVisible" v-loading="loading">
+    					<!-- <div id="randar"></div> -->
     					<div class="table_right">
-    						<el-table   :data="tableData_info"  style="width: 100%" >
+    						<el-table   :data="tableData_info" height="600" style="width: 100%" >
   			            <el-table-column align="center" prop="sort" label="题号" ></el-table-column>
   			            <el-table-column align="center" prop="answer" label="标准答案" ></el-table-column>
   			            <el-table-column align="center" prop="userAnswer" label="这货的答案" ></el-table-column>
@@ -60,12 +63,32 @@
   			            <el-table-column align="center" prop="ablity" label="能力属性" ></el-table-column>
   	            	</el-table>
     					</div>
+              <div class="btn"  @click="dialogVisible = false">
+                返  回
+              </div>
     				</div>
 
-  				<span slot="footer" class="dialog-footer">
-  				  <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-  				</span>
-  			</el-dialog>
+
+
+
+          	<!-- <el-dialog title="查看成绩" :visible.sync="dialogVisible" width="98%" >
+      				<div class="answer-body" v-loading="loading">
+      					<div id="randar"></div>
+      					<div class="table_right">
+      						<el-table   :data="tableData_info"  style="width: 100%" >
+    			            <el-table-column align="center" prop="sort" label="题号" ></el-table-column>
+    			            <el-table-column align="center" prop="answer" label="标准答案" ></el-table-column>
+    			            <el-table-column align="center" prop="userAnswer" label="这货的答案" ></el-table-column>
+    			            <el-table-column align="center" prop="time" label="答题时间" ></el-table-column>
+    			            <el-table-column align="center" prop="ablity" label="能力属性" ></el-table-column>
+    	            	</el-table>
+      					</div>
+      				</div>
+
+    				<span slot="footer" class="dialog-footer">
+    				  <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+    				</span>
+    			</el-dialog> -->
 
   		</div>
   	</div>
@@ -106,21 +129,32 @@ export default {
   			  this.page.total = res.result.total;
   		  })
 	  },
-	  formatDate(row,value){
-
+	  formatDate(row,value,cell){
+			if (cell == undefined || cell == '') {
+			 return "";
+			}
+			return this.$timeF(cell).format("LLLL");
 	  },
+    flagFormat(row,value,cell){
+      if(cell == '1'){
+        return '是'
+      }else{
+        return '否'
+      }
+    },
 	  show(id){
 		  this.loading = true;
 		  this.dialogVisible = true;
 		  this.$postHttp("useranswer/getUserAnswerByUserIdWithData",{userId:id},res=>{
         this.tableData_info = res.result.list;
-        if(res.result.listAblity.length != 0){
-          setTimeout(data=>{
-            this.randars(res);
-          },100);
-        }else{
-          this.loading = false;
-        }
+        // if(res.result.listAblity.length != 0){
+        //   setTimeout(data=>{
+        //     this.randars(res);
+        //   },100);
+        // }else{
+        //   this.loading = false;
+        // }
+        this.loading = false;
 		  })
 	  },
 	  randars(res){
@@ -219,9 +253,22 @@ body{
 	width:300px;
 	height:400px;
 }
-.answer-body .table_right{
+/* .answer-body .table_right{
 	width:calc(100% - 320px);
 	margin-left:20px;
+} */
+.answer-body .table_right{
+	width:100%;
 }
-
+#scroeList .btn{
+  width:200px;
+  line-height: 40px;
+  border-radius: 4px;
+  background: #409EFF;
+  color: #fff;
+  cursor: pointer;
+  text-align: center;
+  margin: 20px auto;
+  font-size: 16px;
+}
 </style>
