@@ -53,14 +53,14 @@
           	</div>
 
             <div class="main" v-show="dialogVisible" v-loading="loading">
-    					<!-- <div id="randar"></div> -->
+              <div id="randar"></div>
     					<div class="table_right">
-    						<el-table   :data="tableData_info" height="600" style="width: 100%" >
+    						<el-table   :data="tableData_info" height="400" style="width: 100%" >
   			            <el-table-column align="center" prop="sort" label="题号" ></el-table-column>
-  			            <el-table-column align="center" prop="answer" label="标准答案" ></el-table-column>
+  			            <el-table-column align="center" prop="questionBankVO.answer" label="标准答案" ></el-table-column>
   			            <el-table-column align="center" prop="userAnswer" label="这货的答案" ></el-table-column>
   			            <el-table-column align="center" prop="time" label="答题时间" ></el-table-column>
-  			            <el-table-column align="center" prop="ablity" label="能力属性" ></el-table-column>
+  			            <el-table-column align="center" prop="questionBankVO.ablity" label="能力属性" ></el-table-column>
   	            	</el-table>
     					</div>
               <div class="btn"  @click="dialogVisible = false">
@@ -112,7 +112,8 @@ export default {
       },
       dialogVisible:false,
       loading:true,
-      tableData_info:[]
+      tableData_info:[],
+      myChart:{}
     }
   },
   mounted:function(){
@@ -147,19 +148,19 @@ export default {
 		  this.dialogVisible = true;
 		  this.$postHttp("useranswer/getUserAnswerByUserIdWithData",{userId:id},res=>{
         this.tableData_info = res.result.list;
-        // if(res.result.listAblity.length != 0){
-        //   setTimeout(data=>{
-        //     this.randars(res);
-        //   },100);
-        // }else{
-        //   this.loading = false;
-        // }
-        this.loading = false;
+        if(res.result.listAblity.length != 0){
+          setTimeout(data=>{
+            this.randars(res);
+          },100);
+        }else{
+          this.myChart.clear();
+          this.loading = false;
+        }
 		  })
 	  },
 	  randars(res){
 		  var docs = document.getElementById('randar');
-		  var myChart = echarts.init(docs);
+		  this.myChart = echarts.init(docs);
       var listAblity = res.result.listAblity;
       var ablityValue = res.result.ablityValue;
 		  var option = {
@@ -173,7 +174,7 @@ export default {
   			radar: [
   			    {
   			        indicator: listAblity,
-  			        center: ['50%','40%'],
+  			        center: ['50%','50%'],
   			        radius: 50
   			    }
   			],
@@ -185,15 +186,15 @@ export default {
   			        },
   			        itemStyle: {normal: {areaStyle: {type: 'default'}}},
   			        data: [
-  			            {
-  			                value: ablityValue,
-  			                name: '能力表'
+  			               {
+    			                value: ablityValue,
+    			                name: '能力表'
   			                }
   			            ]
   			        }
   			    ]
 		  };
-		  myChart.setOption(option);
+		  this.myChart.setOption(option);
 		  this.loading = false;
 	  },
 	  pageSizeChange(val) {
@@ -249,9 +250,10 @@ body{
 	margin:auto;
 	display:flex;
 }
-.answer-body #randar{
-	width:300px;
-	height:400px;
+#randar{
+	width:500px;
+	height:300px;
+  margin:auto;
 }
 /* .answer-body .table_right{
 	width:calc(100% - 320px);

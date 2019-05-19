@@ -33,7 +33,7 @@
 					<el-input v-model="chioce_" type="textarea" maxlength="300" rows="6" resize="none"></el-input>
 				</div>
 
-				<div class="answerBtn" @click="nextQuestion">
+				<div class="answerBtn" @click="nextQuestion(e.id)">
 					下 一 题
 				</div>
 			</div>
@@ -92,7 +92,8 @@ export default {
 					this.loading = false;
 				})
 			},
-			nextQuestion(){
+			nextQuestion(id){
+				this.questionId = id;
 				var len = this.questionList.length;
 				if(!this.done){
 					var obj = new Object();
@@ -102,6 +103,7 @@ export default {
 					obj.questionId = this.$unbind(this.questionId);
 					obj.userAnswer = this.$unbind(this.chioce_);
 					this.answerList.push(obj);
+					console.log(obj);
 				}
 				if(len == this.sort){
 					// 答题结束
