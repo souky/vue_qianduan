@@ -59,7 +59,7 @@ export default {
 					this.$message({message: '请填写正确手机号',type: 'error',center: true});
 					return;
 				}
-				this.$confim_jy('	为了便于您接收通知,请确保以上信息真实准确','',data=>{
+				this.$confim_jy('	为了便于您接收面试通知,请确保以上信息真实准确','',data=>{
 					this.$postHttpForMb("userscore/getUserScoreByUserPhone",{userName:this.userName,userPhone:this.userPhone,userAge:this.userAge},res=>{
 						var flag = res.result.userFlag;
 						if(flag == '0'){
