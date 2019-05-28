@@ -30,14 +30,15 @@
   			            <el-table-column align="center" prop="userName" width='200' label="姓名" ></el-table-column>
                     <el-table-column align="center" prop="userAge" width='70' label="年龄" ></el-table-column>
   			            <el-table-column align="center" prop="userPhone" width='200' label="手机号" ></el-table-column>
+                    <el-table-column align="center" prop="userAddress" width='200' label="所在地" ></el-table-column>
                     <el-table-column align="center" prop="userFlag" width='90' :formatter="flagFormat" label="是否答题" ></el-table-column>
   			            <el-table-column align="center" prop="userTime" width='100' label="答题时间(s)" ></el-table-column>
                     <el-table-column align="center" prop="userDate" :formatter="formatDate" label="答题日期" ></el-table-column>
   			            <el-table-column align="center" class-name="operations" label="操作" width="80">
-  				            <template slot-scope="scope">
+  				            <template slot-scope="scope" v-if="scope.row.userFlag == 1">
   				             	<div class="op_items">
-  			    					<el-button size="mini" @click="show(scope.row.id)">查看</el-button>
-  			    				</div>
+      			    					<el-button size="mini" @click="show(scope.row.id,scope.row.userName)">查看</el-button>
+      			    				</div>
   				            </template>
   			            </el-table-column>
   	            	</el-table>
@@ -53,16 +54,25 @@
           	</div>
 
             <div class="main" v-show="dialogVisible" v-loading="loading">
-              <div id="randar"></div>
-    					<div class="table_right">
-    						<el-table   :data="tableData_info" height="400" style="width: 100%" >
-  			            <el-table-column align="center" prop="sort" label="题号" ></el-table-column>
-  			            <el-table-column align="center" prop="questionBankVO.answer" label="标准答案" ></el-table-column>
-  			            <el-table-column align="center" prop="userAnswer" label="这货的答案" ></el-table-column>
-  			            <el-table-column align="center" prop="time" label="答题时间" ></el-table-column>
-  			            <el-table-column align="center" prop="questionBankVO.ablity" label="能力属性" ></el-table-column>
-  	            	</el-table>
-    					</div>
+              <div class="bodys">
+                <div style="width:100%;height:40px;line-height:40px;text-align:center;">
+                  {{name}}的成绩单
+                </div>
+                <div id="randar"></div>
+      					<div class="table_right">
+                  <div style="text-align:right;padding-right:20px;">
+                    分数: {{score}} / {{total}}
+                  </div>
+      						<el-table   :data="tableData_info" height="400" style="width: 100%" >
+    			            <el-table-column align="center" prop="sort" width="60" label="题号" ></el-table-column>
+    			            <el-table-column align="center" prop="questionBankVO.answer" width="120" label="标准答案" ></el-table-column>
+    			            <el-table-column align="center" prop="userAnswer" label="选手答案" ></el-table-column>
+                      <el-table-column align="center" prop="time" width="120" label="答题时间" ></el-table-column>
+    			            <el-table-column align="center" prop="score" width="60" label="得分" ></el-table-column>
+    			            <el-table-column align="center" prop="questionBankVO.ablity" width="200" label="能力属性" ></el-table-column>
+    	            	</el-table>
+      					</div>
+              </div>
               <div class="btn"  @click="dialogVisible = false">
                 返  回
               </div>
@@ -113,7 +123,11 @@ export default {
       dialogVisible:false,
       loading:true,
       tableData_info:[],
-      myChart:{}
+      myChart:{},
+
+      score:0,
+      total:0,
+      name:''
     }
   },
   mounted:function(){
@@ -143,11 +157,14 @@ export default {
         return '否'
       }
     },
-	  show(id){
+	  show(id,name){
 		  this.loading = true;
 		  this.dialogVisible = true;
+      this.name = name;
 		  this.$postHttp("useranswer/getUserAnswerByUserIdWithData",{userId:id},res=>{
         this.tableData_info = res.result.list;
+        this.score = res.result.score;
+        this.total = res.result.total;
         if(res.result.listAblity.length != 0){
           setTimeout(data=>{
             this.randars(res);
@@ -199,6 +216,7 @@ export default {
 	  },
 	  pageSizeChange(val) {
 		  this.page.pageSize = val;
+      this.page.pageNum = 1;
 		  this.loadData();
 	  },
 	  pageChange(val) {
@@ -233,6 +251,12 @@ body{
     margin: 80px auto;
     border-radius: 5px;
 }
+#scroeList .bodys{
+  display: flex;
+  width: 100%;
+  padding: 80px 0;
+  flex-wrap: wrap;
+}
 
 #autoCode .formData{
 	width: 90%;
@@ -245,13 +269,8 @@ body{
 	margin:20px 2% 0px 2%;
 }
 
-.answer-body{
-	width:95%;
-	margin:auto;
-	display:flex;
-}
 #randar{
-	width:500px;
+	width:400px;
 	height:300px;
   margin:auto;
 }
@@ -259,8 +278,8 @@ body{
 	width:calc(100% - 320px);
 	margin-left:20px;
 } */
-.answer-body .table_right{
-	width:100%;
+#scroeList .bodys .table_right{
+	width:calc(100% - 400px);
 }
 #scroeList .btn{
   width:200px;
