@@ -6,9 +6,9 @@
 		<div class="topText">
       海选测试题
     </div>
-    <div class="bottom">
+    <!-- <div class="bottom">
       <img src="static/img/moblie/bottom.png" style="width:100%;height:100%">
-    </div>
+    </div> -->
 		<div class="background">
       <img src="static/img/moblie/background.jpg" style="width:100%;height:100%">
     </div>
